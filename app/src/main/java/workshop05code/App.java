@@ -55,7 +55,7 @@ public class App {
         try (BufferedReader br = new BufferedReader(new FileReader("resources/data.txt"))) {
             String line;
             int i = 1;
-            while ((line = br.readLine()) != null) {
+            while (((line = br.readLine()) != null) && line.matches("^[a-z]{4}$")) {
                 System.out.println(line);
                 wordleDatabaseConnection.addValidWord(i, line);
                 i++;
@@ -74,16 +74,28 @@ public class App {
             String guess = scanner.nextLine();
 
             while (!guess.equals("q")) {
-                System.out.println("You've guessed '" + guess+"'.");
+                if (guess.matches("^[a-z]{4}$")){
+                    System.out.println("You've guessed '" + guess+"'.");
 
-                if (wordleDatabaseConnection.isValidWord(guess)) { 
-                    System.out.println("Success! It is in the the list.\n");
-                }else{
-                    System.out.println("Sorry. This word is NOT in the the list.\n");
+                    if (wordleDatabaseConnection.isValidWord(guess)) { 
+                        System.out.println("Success! It is in the the list.\n");
+                    }else{
+                        System.out.println("Sorry. This word is NOT in the the list.\n");
+                    }
+    
+                    System.out.print("Enter a 4 letter word for a guess or q to quit: " );
+                    guess = scanner.nextLine();
                 }
 
-                System.out.print("Enter a 4 letter word for a guess or q to quit: " );
-                guess = scanner.nextLine();
+                else {
+                    System.out.print("Invalid input. Try again:\n");
+                    guess = scanner.nextLine();
+                }
+                
+                
+
+                
+              
             }
         } catch (NoSuchElementException | IllegalStateException e) {
             e.printStackTrace();
