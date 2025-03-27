@@ -38,13 +38,13 @@ public class App {
 
         wordleDatabaseConnection.createNewDatabase("words.db");
         if (wordleDatabaseConnection.checkIfConnectionDefined()) {
-            System.out.println("Wordle created and connected.");
+            logger.info("Wordle created and connected.");
         } else {
             System.out.println("Not able to connect. Sorry!");
             return;
         }
         if (wordleDatabaseConnection.createWordleTables()) {
-            System.out.println("Wordle structures in place.");
+            logger.info("Wordle structures in place.");
         } else {
             System.out.println("Not able to launch. Sorry!");
             return;
@@ -57,12 +57,12 @@ public class App {
             int i = 1;
             while ((line = br.readLine()) != null) {
                 if (line.matches("^[a-z]{4}$")){
-                    System.out.println(line);
+                    logger.info(line);
                     wordleDatabaseConnection.addValidWord(i, line);
                     i++;
                 }
                 else {
-                    System.out.println("Invalid word");
+                    logger.severe(line);
                 }
                 
             }
@@ -70,6 +70,7 @@ public class App {
         } catch (IOException e) {
             System.out.println("Not able to load . Sorry!");
             System.out.println(e.getMessage());
+            logger.warning(e.getMessage());
             return;
         }
 
@@ -94,7 +95,8 @@ public class App {
                 }
 
                 else {
-                    System.out.print("Invalid input. Try again:\n");
+                    System.out.print("Invalid guess. Try again:\n");
+                    logger.info(guess);
                     guess = scanner.nextLine();
                 }
                 
